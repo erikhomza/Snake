@@ -1,5 +1,7 @@
 import pygame as pg
 import random
+import pickle
+import os
 
 
 pg.init()
@@ -9,7 +11,10 @@ fps = 30
 control = 3
 cooldown = 5
 score = 0
-highscore = 0
+if os.path.exists('./highscore.dat'):
+    highscore = pickle.load(open("highscore.dat", "rb"))
+else:
+    highscore = 0
 
 
 screen_width = 800
@@ -190,6 +195,8 @@ while run:
             for i in range(16):
                 map.append(map_row[:])
             snake = [[7, 4], [7, 5]]
+            if score == highscore:
+                pickle.dump(highscore, open("highscore.dat", "wb"))
             score = 0
             map[snake[0][0]][snake[0][1]] = 2
             map[snake[1][0]][snake[1][1]] = 2
